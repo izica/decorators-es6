@@ -1,5 +1,5 @@
 # decorators-es6
-Decorator for es6+, with promise support
+Decorators for es6+, with promise support
 ### Install
 ```
 npm install decorators-es6
@@ -15,9 +15,15 @@ yarn add decorators-es6
 * throttle
 
 ### Features
-* Easy to use as decorator
+* Easy to use as decorator in es6
 * Promise support
 * Decorated function return value in promise chain
+
+### Warning
+For use this package your app need to support these features(Babel or Polyfills):
+* Promise
+* arrow functions () => {}
+* import, export
 
 ### Usage
 #### debounce(time)
