@@ -1,4 +1,5 @@
-export cache from './src/cache';
-export debounce from './src/debounce';
-export memoize from './src/memoize';
-export throttle from './src/throttle';
+export const cache = require('./src/cache').default;
+export const debounce = require('./src/debounce').default;
+export const memoize = require('./src/memoize').default;
+export const throttle = require('./src/throttle').default;
+
