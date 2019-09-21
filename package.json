@@ -1,6 +1,6 @@
 {
     "name": "decorators-es6",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Useful decorators for es6+, with promise support",
     "main": "index.js",
     "scripts": {
@@ -29,6 +29,7 @@
         "memoize",
         "memoize-es6",
         "throttle",
-        "throttle-es6"
+        "throttle-es6",
+        "async"
     ]
 }
