@@ -11,6 +11,10 @@ const debounce = (time = 500) => {
                     }
                     this.timeout = setTimeout(() => {
                         const promiseOrResult = descriptor.initializer().apply(this, args);
+                        if (typeof promiseOrResult === 'undefined') {
+                            resolve();
+                            return;
+                        }
                         if (typeof promiseOrResult.then === 'undefined') {
                             resolve(promiseOrResult);
                         } else {

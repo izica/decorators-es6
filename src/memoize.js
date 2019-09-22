@@ -31,6 +31,10 @@ const memoize = (time = 9999999) => {
 
                     // get new result
                     const promiseOrResult = descriptor.initializer().apply(this, args);
+                    if (typeof promiseOrResult === 'undefined') {
+                        resolve();
+                        return;
+                    }
                     if (typeof promiseOrResult.then === 'undefined') {
                         this.stash[key] = {
                             expires: dateCurrent + time,

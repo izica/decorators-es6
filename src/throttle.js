@@ -17,6 +17,10 @@ const throttle = (time = 500) => {
                     this.delay = true;
 
                     const promiseOrResult = descriptor.initializer().apply(this, args);
+                    if (typeof promiseOrResult === 'undefined') {
+                        resolve();
+                        return;
+                    }
                     if (typeof promiseOrResult.then === 'undefined') {
                         setTimeout(() => {
                             this.delay = false;
