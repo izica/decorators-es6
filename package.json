@@ -1,6 +1,6 @@
 {
     "name": "decorators-es6",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "Useful decorators for es6+, with promise support",
     "main": "index.js",
     "scripts": {
