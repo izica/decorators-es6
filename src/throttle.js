@@ -6,15 +6,16 @@ const throttle = (time = 500) => {
             writable: true,
             initializer: () => function (...args) {
                 return new Promise((resolve) => {
-                    if (typeof this.delay === 'undefined') {
-                        this.delay = false;
+                    const delayKey = name + 'ThrottleDelay'
+                    if (typeof target[delayKey] === 'undefined') {
+                        target[delayKey] = false;
                     }
 
-                    if (this.delay === true) {
+                    if (target[delayKey] === true) {
                         return;
                     }
 
-                    this.delay = true;
+                    target[delayKey] = true;
 
                     const promiseOrResult = descriptor.initializer().apply(this, args);
                     if (typeof promiseOrResult === 'undefined') {
@@ -23,13 +24,13 @@ const throttle = (time = 500) => {
                     }
                     if (typeof promiseOrResult.then === 'undefined') {
                         setTimeout(() => {
-                            this.delay = false;
+                            target[delayKey] = false;
                         }, time);
                         resolve(promiseOrResult);
                     } else {
                         promiseOrResult.then(result => {
                             setTimeout(() => {
-                                this.delay = false;
+                                target[delayKey] = false;
                             }, time);
                             resolve(result);
                         });

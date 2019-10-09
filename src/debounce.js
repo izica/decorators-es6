@@ -6,10 +6,12 @@ const debounce = (time = 500) => {
             writable: true,
             initializer: () => function (...args) {
                 return new Promise((resolve) => {
-                    if (typeof this.timeout !== 'undefined') {
-                        clearTimeout(this.timeout);
+                    console.log(target, name, descriptor);
+                    const timeoutKey = name + 'TimeOut';
+                    if (typeof target[timeoutKey] !== 'undefined') {
+                        clearTimeout(target[timeoutKey]);
                     }
-                    this.timeout = setTimeout(() => {
+                    target[timeoutKey] = setTimeout(() => {
                         const promiseOrResult = descriptor.initializer().apply(this, args);
                         if (typeof promiseOrResult === 'undefined') {
                             resolve();
