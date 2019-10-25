@@ -1,30 +1,36 @@
-const debounce = (time = 500) => {
-    return (target, name, descriptor) => {
+const debounce = function (time = 500) {
+    let timer = null;
+    return function (target, name, descriptor) {
         return {
-            configurable: true,
-            enumerable: true,
-            writable: true,
-            initializer: () => function (...args) {
-                return new Promise((resolve) => {
-                    const timeoutKey = name + 'TimeOut';
-                    if (typeof target[timeoutKey] !== 'undefined') {
-                        clearTimeout(target[timeoutKey]);
-                    }
-                    target[timeoutKey] = setTimeout(() => {
-                        const promiseOrResult = descriptor.initializer().apply(this, args);
-                        if (typeof promiseOrResult === 'undefined') {
-                            resolve();
-                            return;
-                        }
-                        if (typeof promiseOrResult.then === 'undefined') {
-                            resolve(promiseOrResult);
+            value: function (...args) {
+                let resolve = null;
+                const promise = new Promise((r) => {
+                    resolve = r;
+                });
+
+                const fn = descriptor.initializer.bind(this)();
+                if (timer !== null) {
+                    clearTimeout(timer);
+                }
+
+                timer = setTimeout(() => {
+                    timer = null;
+
+                    const result = fn.apply(this, args);
+                    if (typeof result === 'undefined') {
+                        resolve();
+                    } else {
+                        if (typeof result.then === 'undefined') {
+                            resolve(result);
                         } else {
-                            promiseOrResult.then(result => {
+                            result.then(result => {
                                 resolve(result);
                             });
                         }
-                    }, time);
-                });
+                    }
+                }, time);
+
+                return promise;
             }
         };
     };
